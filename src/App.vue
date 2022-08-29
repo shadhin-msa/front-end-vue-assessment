@@ -30,9 +30,11 @@
             </div>
 
             <!-- Carousel Area -->
-            <div>
-              <h2>Carrosel</h2>
-            </div>
+            <b-row>
+              <b-col>
+                <carousel></carousel>
+              </b-col>
+            </b-row>
           </b-col>
         </b-row>
 
@@ -64,8 +66,11 @@
                 <b-row cols="1" class="g-xs gv-xs">
                   <b-col v-for="(c, i) in page2.cards" :key="i">
                     <button class="flat-button" @click="coffeeTypeChoiceUpdate(c.title)">
-                    <card :title="c.title" :description="c.description"
-                        :active="getCoffeeTypeChoice.indexOf(c.title) !== -1"></card>
+                      <card
+                        :title="c.title"
+                        :description="c.description"
+                        :active="getCoffeeTypeChoice.indexOf(c.title) !== -1"
+                      ></card>
                     </button>
                   </b-col>
                 </b-row>
@@ -123,12 +128,14 @@ import store from '@/store';
 import { mapActions, mapGetters } from 'vuex';
 import config from '../configs/config.json';
 import card from './components/c-card.vue';
+import carousel from './components/c-carousel.vue';
 
 export default {
   name: 'App',
   store,
   components: {
     card,
+    carousel,
   },
   data() {
     return {
@@ -144,7 +151,12 @@ export default {
     ...mapGetters(['getCoffeeMachineChoice', 'getCoffeeTypeChoice']),
   },
   methods: {
-    ...mapActions(['addCoffeeMachineChoice', 'removeCoffeeMachineChoice', 'addCoffeeTypeChoice', 'removeCoffeeTypeChoice']),
+    ...mapActions([
+      'addCoffeeMachineChoice',
+      'removeCoffeeMachineChoice',
+      'addCoffeeTypeChoice',
+      'removeCoffeeTypeChoice',
+    ]),
     showSecondPage() {
       this.firstPage = false;
     },
