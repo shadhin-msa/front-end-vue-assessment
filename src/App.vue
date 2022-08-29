@@ -51,7 +51,7 @@
                       <card
                         :title="c.title"
                         :icon="c.icon"
-                        :active="coffeeMachineChoice.indexOf(c.title) !== -1"
+                        :active="getCoffeeMachineChoice.indexOf(c.title) !== -1"
                       ></card>
                     </button>
                   </b-col>
@@ -65,7 +65,7 @@
                   <b-col v-for="(c, i) in page2.cards" :key="i">
                     <button class="flat-button" @click="coffeeTypeChoiceUpdate(c.title)">
                     <card :title="c.title" :description="c.description"
-                        :active="coffeeTypeChoice.indexOf(c.title) !== -1"></card>
+                        :active="getCoffeeTypeChoice.indexOf(c.title) !== -1"></card>
                     </button>
                   </b-col>
                 </b-row>
@@ -120,6 +120,7 @@
 
 <script>
 import store from '@/store';
+import { mapActions, mapGetters } from 'vuex';
 import config from '../configs/config.json';
 import card from './components/c-card.vue';
 
@@ -137,13 +138,13 @@ export default {
       page2: config.flow.pages[1],
       sidebarModel: true,
       firstPage: true,
-      coffeeMachineChoice: [],
-      coffeeTypeChoice: [],
     };
   },
   computed: {
+    ...mapGetters(['getCoffeeMachineChoice', 'getCoffeeTypeChoice']),
   },
   methods: {
+    ...mapActions(['addCoffeeMachineChoice', 'removeCoffeeMachineChoice', 'addCoffeeTypeChoice', 'removeCoffeeTypeChoice']),
     showSecondPage() {
       this.firstPage = false;
     },
@@ -163,19 +164,19 @@ export default {
       // TODO: clear data
     },
     updateCoffeeMachineChoice(key) {
-      const keyIndex = this.coffeeMachineChoice.indexOf(key);
+      const keyIndex = this.getCoffeeMachineChoice.indexOf(key);
       if (keyIndex !== -1) {
-        this.coffeeMachineChoice.splice(keyIndex, 1);
+        this.removeCoffeeMachineChoice(key);
       } else {
-        this.coffeeMachineChoice.push(key);
+        this.addCoffeeMachineChoice(key);
       }
     },
     coffeeTypeChoiceUpdate(key) {
-      const keyIndex = this.coffeeTypeChoice.indexOf(key);
+      const keyIndex = this.getCoffeeTypeChoice.indexOf(key);
       if (keyIndex !== -1) {
-        this.coffeeTypeChoice.splice(keyIndex, 1);
+        this.removeCoffeeTypeChoice(key);
       } else {
-        this.coffeeTypeChoice.push(key);
+        this.addCoffeeTypeChoice(key);
       }
     },
   },
