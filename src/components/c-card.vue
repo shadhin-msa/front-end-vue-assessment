@@ -38,6 +38,7 @@ export default {
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
+  cursor: pointer;
 }
 .icon-card .icon-area {
   margin-top: 15px;
@@ -75,11 +76,17 @@ export default {
   position: absolute;
   top: -3px;
   right: -3px;
+  display: none;
 }
 .tick-icon {
   position: absolute;
   top: 4px;
   right: 4px;
+  display: none;
+}
+.active .triangle-tick-sign,
+.active .tick-icon {
+  display: inherit;
 }
 </style>
 

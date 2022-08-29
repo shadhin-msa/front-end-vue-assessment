@@ -25,7 +25,7 @@
           <b-col class="bg-primary text-white">
             <!-- section title -->
             <div class="pt-4">
-              <h1 class="title" >{{ carousel.defaultTitle }}</h1>
+              <h1 class="title">{{ carousel.defaultTitle }}</h1>
               <sub>Total item 17</sub>
             </div>
 
@@ -40,14 +40,20 @@
         <b-row class="page py-5">
           <b-col>
             <div>
-              <h1 class="title text-black" >{{ page1.title.text }}</h1>
+              <h1 class="title text-black">{{ page1.title.text }}</h1>
               <sub class="text-primary">{{ page1.description.text }}</sub>
 
               <!-- page 1 -->
               <div v-if="firstPage" class="page1 py-4">
                 <b-row cols="3" class="g-xs gv-xs">
                   <b-col v-for="(c, i) in page1.cards" :key="i">
-                    <card :title="c.title" :icon="c.icon" :active="true"></card>
+                    <button class="flat-button" @click="updateCoffeeMachineChoice(c.title)">
+                      <card
+                        :title="c.title"
+                        :icon="c.icon"
+                        :active="coffeeMachineChoice.indexOf(c.title) !== -1"
+                      ></card>
+                    </button>
                   </b-col>
                 </b-row>
               </div>
@@ -57,7 +63,10 @@
               <div v-else class="page2 py-4">
                 <b-row cols="1" class="g-xs gv-xs">
                   <b-col v-for="(c, i) in page2.cards" :key="i">
-                    <card :title="c.title" :description="c.description" :active="true"></card>
+                    <button class="flat-button" @click="coffeeTypeChoiceUpdate(c.title)">
+                    <card :title="c.title" :description="c.description"
+                        :active="coffeeTypeChoice.indexOf(c.title) !== -1"></card>
+                    </button>
                   </b-col>
                 </b-row>
               </div>
@@ -127,8 +136,12 @@ export default {
       page1: config.flow.pages[0],
       page2: config.flow.pages[1],
       sidebarModel: true,
-      firstPage: false,
+      firstPage: true,
+      coffeeMachineChoice: [],
+      coffeeTypeChoice: [],
     };
+  },
+  computed: {
   },
   methods: {
     showSecondPage() {
@@ -148,6 +161,22 @@ export default {
     restart() {
       this.showFirstPage();
       // TODO: clear data
+    },
+    updateCoffeeMachineChoice(key) {
+      const keyIndex = this.coffeeMachineChoice.indexOf(key);
+      if (keyIndex !== -1) {
+        this.coffeeMachineChoice.splice(keyIndex, 1);
+      } else {
+        this.coffeeMachineChoice.push(key);
+      }
+    },
+    coffeeTypeChoiceUpdate(key) {
+      const keyIndex = this.coffeeTypeChoice.indexOf(key);
+      if (keyIndex !== -1) {
+        this.coffeeTypeChoice.splice(keyIndex, 1);
+      } else {
+        this.coffeeTypeChoice.push(key);
+      }
     },
   },
 };
@@ -169,7 +198,7 @@ export default {
   font-size: 16px;
 }
 h1 {
-  font-family:'Bebas Neue', cursive;
+  font-family: 'Bebas Neue', cursive;
   font-weight: normal;
 }
 h2 {
@@ -231,7 +260,7 @@ h1.title + sub {
 }
 
 .carousel h1.title {
-  font-size: 1.8rem ;
+  font-size: 1.8rem;
   // font-weight: 600;
 }
 .page h1.title {
@@ -264,5 +293,12 @@ h1.title + sub {
 
 .carousel h1.title {
   margin-bottom: 0;
+}
+
+// card checkbox
+.flat-button {
+  background: none;
+  border: none;
+  width: 100%;
 }
 </style>
